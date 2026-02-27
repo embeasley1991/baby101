@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Baby Schulman 101</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+–coral: #E8736A;
+–sage: #6A9E7F;
+–blue: #6A8EC2;
+–lavender: #9E6AB5;
+–peach: #C2976A;
+–teal: #6AB5A8;
+–pink: #C26A8E;
+–green: #7A9E6A;
+–bg: #FDF8F5;
+–card: #FFFFFF;
+–dark: #2C2C2C;
+–mid: #555555;
+–light: #F0EBE6;
+–border: #E8E0D8;
+}
+
+- { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+font-family: ‘DM Sans’, sans-serif;
+background: var(–bg);
+color: var(–dark);
+min-height: 100vh;
+max-width: 480px;
+margin: 0 auto;
+padding-bottom: 40px;
+}
+
+/* STICKY WRAPPER */
+.sticky-top {
+position: sticky;
+top: 0;
+z-index: 100;
+background: var(–bg);
+}
+
+/* HEADER */
+.header {
+background: linear-gradient(135deg, #F7E8E8 0%, #E8F0F7 50%, #EAF7EE 100%);
+padding: 20px 20px 14px;
+text-align: center;
+border-bottom: 1px solid var(–border);
+}
+.header h1 {
+font-family: ‘Playfair Display’, serif;
+font-size: 26px;
+color: var(–dark);
+letter-spacing: -0.5px;
+}
+.header p {
+font-size: 12px;
+color: var(–mid);
+margin-top: 4px;
+letter-spacing: 0.5px;
+text-transform: uppercase;
+}
+.bow { font-size: 20px; margin-bottom: 4px; display: block; }
+
+/* SEARCH */
+.search-wrap {
+padding: 10px 16px 8px;
+background: var(–bg);
+border-bottom: 1px solid var(–border);
+}
+.search-wrap input {
+width: 100%;
+padding: 10px 16px 10px 38px;
+border: 1.5px solid var(–border);
+border-radius: 24px;
+font-size: 14px;
+font-family: ‘DM Sans’, sans-serif;
+background: white;
+color: var(–dark);
+outline: none;
+}
+.search-wrap input:focus { border-color: var(–coral); }
+.search-icon {
+position: absolute;
+left: 28px;
+top: 50%;
+transform: translateY(-50%);
+font-size: 15px;
+opacity: 0.4;
+}
+
+/* QUICK NAV */
+.quick-nav {
+display: flex;
+gap: 8px;
+padding: 8px 16px 10px;
+overflow-x: auto;
+scrollbar-width: none;
+-ms-overflow-style: none;
+border-bottom: 1px solid var(–border);
+background: var(–bg);
+}
+.quick-nav::-webkit-scrollbar { display: none; }
+.nav-chip {
+flex-shrink: 0;
+padding: 6px 14px;
+border-radius: 20px;
+font-size: 12px;
+font-weight: 500;
+border: 1.5px solid var(–border);
+background: white;
+color: var(–mid);
+cursor: pointer;
+transition: all 0.2s;
+white-space: nowrap;
+}
+.nav-chip:active { transform: scale(0.95); }
+
+/* SECTION CARDS */
+.sections { padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
+
+.section-card {
+border-radius: 16px;
+overflow: hidden;
+box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+background: white;
+border: 1px solid var(–border);
+}
+
+.section-header {
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 16px 18px;
+cursor: pointer;
+user-select: none;
+transition: opacity 0.15s;
+}
+.section-header:active { opacity: 0.8; }
+.section-header-left {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+.section-emoji {
+width: 42px;
+height: 42px;
+border-radius: 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 20px;
+flex-shrink: 0;
+}
+.section-title-wrap h2 {
+font-size: 15px;
+font-weight: 600;
+color: var(–dark);
+line-height: 1.2;
+}
+.section-title-wrap p {
+font-size: 11px;
+color: var(–mid);
+margin-top: 2px;
+}
+.chevron {
+font-size: 13px;
+color: var(–mid);
+transition: transform 0.3s ease;
+flex-shrink: 0;
+}
+.section-card.open .chevron { transform: rotate(180deg); }
+
+.section-body {
+display: none;
+padding: 0 18px 18px;
+border-top: 1px solid var(–border);
+animation: slideDown 0.2s ease;
+}
+.section-card.open .section-body { display: block; }
+
+@keyframes slideDown {
+from { opacity: 0; transform: translateY(-6px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+/* CONTENT BLOCKS */
+.block { margin-top: 16px; }
+.block-title {
+font-size: 11px;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 0.8px;
+color: var(–mid);
+margin-bottom: 8px;
+padding-bottom: 4px;
+border-bottom: 1px solid var(–border);
+}
+
+.bullet {
+display: flex;
+gap: 8px;
+padding: 4px 0;
+font-size: 13.5px;
+line-height: 1.5;
+color: var(–dark);
+}
+.bullet-dot {
+width: 6px;
+height: 6px;
+border-radius: 50%;
+margin-top: 7px;
+flex-shrink: 0;
+}
+
+.tip-box {
+background: #F0F9F4;
+border-left: 3px solid var(–sage);
+border-radius: 0 8px 8px 0;
+padding: 10px 12px;
+margin-top: 10px;
+font-size: 12.5px;
+color: #3D6B50;
+line-height: 1.5;
+}
+.tip-box::before { content: “💡 “; }
+
+.warn-box {
+background: #FFF0EF;
+border-left: 3px solid var(–coral);
+border-radius: 0 8px 8px 0;
+padding: 10px 12px;
+margin-top: 10px;
+font-size: 12.5px;
+color: #8B3A35;
+line-height: 1.5;
+font-weight: 500;
+}
+.warn-box::before { content: “⚠️ “; }
+
+.product-tag {
+display: inline-flex;
+align-items: center;
+gap: 4px;
+background: var(–light);
+border: 1px solid var(–border);
+border-radius: 8px;
+padding: 4px 10px;
+font-size: 11px;
+color: var(–mid);
+margin: 3px 3px 3px 0;
+font-style: italic;
+}
+
+.products-row { margin-top: 8px; display: flex; flex-wrap: wrap; }
+
+/* VIDEO LINKS */
+.video-link {
+display: flex;
+align-items: center;
+gap: 10px;
+background: #F5F0FF;
+border: 1px solid #DDD0FF;
+border-radius: 10px;
+padding: 10px 12px;
+margin-top: 8px;
+text-decoration: none;
+color: var(–dark);
+transition: background 0.2s;
+}
+.video-link:active { background: #EDE5FF; }
+.video-icon {
+width: 34px;
+height: 34px;
+background: #7B61FF;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 14px;
+flex-shrink: 0;
+}
+.video-link-text .v-title { font-size: 12.5px; font-weight: 600; }
+.video-link-text .v-sub { font-size: 11px; color: var(–mid); margin-top: 1px; }
+
+/* RESOURCE LINKS */
+.resource-link {
+display: flex;
+align-items: center;
+gap: 10px;
+background: #F0F7FF;
+border: 1px solid #C8DFFF;
+border-radius: 10px;
+padding: 10px 12px;
+margin-top: 8px;
+text-decoration: none;
+color: var(–dark);
+}
+.resource-icon {
+width: 34px;
+height: 34px;
+background: var(–blue);
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 14px;
+flex-shrink: 0;
+}
+
+/* BREECH SPECIAL ALERT */
+.breech-alert {
+background: linear-gradient(135deg, #FFF8E6, #FFE8F0);
+border: 2px solid #F0C060;
+border-radius: 12px;
+padding: 14px;
+margin: 12px 14px 0;
+}
+.breech-alert-title {
+font-size: 13px;
+font-weight: 700;
+color: #7A5000;
+display: flex;
+align-items: center;
+gap: 6px;
+margin-bottom: 6px;
+}
+.breech-alert p {
+font-size: 12.5px;
+color: #5C4000;
+line-height: 1.5;
+}
+
+/* PHASE PILL */
+.phase-pill {
+display: inline-block;
+padding: 3px 10px;
+border-radius: 20px;
+font-size: 10.5px;
+font-weight: 600;
+margin-right: 6px;
+color: white;
+}
+
+/* STEP BLOCK */
+.step {
+display: flex;
+gap: 10px;
+padding: 6px 0;
+align-items: flex-start;
+}
+.step-num {
+width: 22px;
+height: 22px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 11px;
+font-weight: 700;
+color: white;
+flex-shrink: 0;
+margin-top: 2px;
+}
+.step-text { font-size: 13.5px; line-height: 1.5; }
+.step-text strong { font-weight: 600; }
+
+/* FEVER TABLE */
+.fever-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 12.5px; }
+.fever-table th {
+background: var(–coral);
+color: white;
+padding: 7px 10px;
+text-align: left;
+font-weight: 600;
+font-size: 11px;
+}
+.fever-table td { padding: 7px 10px; border-bottom: 1px solid var(–border); }
+.fever-table tr:last-child td { border-bottom: none; }
+.fever-table tr:nth-child(even) td { background: #FFF5F4; }
+
+/* TUMMY TIME GRID */
+.tt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; }
+.tt-card {
+background: linear-gradient(135deg, #F0F9F4, #E8F4EE);
+border: 1px solid #C0DFC8;
+border-radius: 10px;
+padding: 10px;
+text-align: center;
+}
+.tt-card .tt-emoji { font-size: 24px; display: block; margin-bottom: 4px; }
+.tt-card .tt-name { font-size: 11.5px; font-weight: 600; color: var(–dark); }
+.tt-card .tt-desc { font-size: 10.5px; color: var(–mid); margin-top: 3px; line-height: 1.4; }
+
+/* FOOTER */
+.footer {
+text-align: center;
+padding: 20px;
+font-size: 11px;
+color: var(–mid);
+line-height: 1.6;
+border-top: 1px solid var(–border);
+margin-top: 12px;
+}
+
+/* SEARCH HIGHLIGHT */
+.search-highlight { background: #FFEB3B; border-radius: 2px; }
+
+/* HIDDEN */
+.hidden { display: none !important; }
+
+b, strong { font-weight: 600; }
+</style>
+
+</head>
+<body>
+
+<div class="sticky-top">
+<div class="header">
+  <span class="bow">🎀</span>
+  <h1>Baby Schulman 101</h1>
+  <p>Complete Care Guide for New Parents</p>
+</div>
+
+<div class="search-wrap" style="position:relative;">
+  <span class="search-icon">🔍</span>
+  <input type="text" id="search" placeholder="Search (e.g. fever, tummy time, gas...)" oninput="doSearch(this.value)">
+</div>
+
+<div class="quick-nav" id="quicknav">
+  <div class="nav-chip" onclick="goTo('diapering')">🧷 Diaper</div>
+  <div class="nav-chip" onclick="goTo('coterie')">🩲 Coterie</div>
+  <div class="nav-chip" onclick="goTo('skin')">🧴 Skin</div>
+  <div class="nav-chip" onclick="goTo('bath')">🛁 Bath</div>
+  <div class="nav-chip" onclick="goTo('tummy')">🤸 Tummy</div>
+  <div class="nav-chip" onclick="goTo('breech')">⭐ Breech</div>
+  <div class="nav-chip" onclick="goTo('feeding')">🍼 Feed</div>
+  <div class="nav-chip" onclick="goTo('gas')">💨 Gas</div>
+  <div class="nav-chip" onclick="goTo('sick')">🏥 Sick</div>
+  <div class="nav-chip" onclick="goTo('sleep')">😴 Sleep</div>
+  <div class="nav-chip" onclick="goTo('soothe')">💗 Soothe</div>
+  <div class="nav-chip" onclick="goTo('nails')">✂️ Nails</div>
+</div>
+</div>
+
+<!-- BREECH BANNER -->
+
+<div class="breech-alert" id="breech-banner">
+  <div class="breech-alert-title">⭐ Frank Breech Baby — Special Considerations</div>
+  <p>Baby Schulman was frank breech — hips flexed, legs straight up alongside the body. This affects how you hold, position, and swaddle her. See the dedicated Breech section below for full details.</p>
+</div>
+
+<div class="sections" id="sections">
+
+  <!-- 1. DIAPERING -->
+
+  <div class="section-card" id="diapering">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-emoji" style="background:#FEF0EF;">🧷</div>
+        <div class="section-title-wrap">
+          <h2>Diapering</h2>
+          <p>Creams, wipes & technique</p>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+
+```
+  <div class="block">
+    <div class="block-title" style="color:var(--coral);">Diaper Cream Protocol — By Phase</div>
+    <div class="step">
+      <div class="step-num" style="background:var(--teal);">1</div>
+      <div class="step-text"><strong>Week 1–2 (Meconium / black tar poop)</strong><br>Use <strong>CeraVe Healing Ointment</strong> as diaper cream — petroleum base helps tar-like poop slide off easily. Meconium sticks like glue otherwise!</div>
+    </div>
+    <div class="step">
+      <div class="step-num" style="background:var(--coral);">2</div>
+      <div class="step-text"><strong>After meconium clears (daily preventative)</strong><br>Switch to <strong>Rugby Zinc Oxide 20%</strong> at every single diaper change. Creates a moisture barrier even before any rash appears.</div>
+    </div>
+    <div class="step">
+      <div class="step-num" style="background:var(--pink);">3</div>
+      <div class="step-text"><strong>Active diaper rash</strong><br><strong>Boudreaux's Butt Paste MAX (40% zinc oxide)</strong> — works on contact, use at first sign of redness.</div>
+    </div>
+    <div class="products-row">
+      <span class="product-tag">📦 CeraVe Healing Ointment</span>
+      <span class="product-tag">📦 Rugby Zinc Oxide 20%</span>
+      <span class="product-tag">📦 Boudreaux's Butt Paste Max</span>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--coral);">Where to Apply Cream (Girls)</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div>All across bottom and buttocks</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div><strong>Creases/folds</strong> where thigh meets diaper area — rashes hide here first!</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div>Outer labia only — <strong>NEVER inside</strong> vaginal area</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div>Always wipe and apply <strong>front to back</strong></div></div>
+    <div class="tip-box">Use a glove or cotton pad — Zinc Oxide is very thick and nearly impossible to wash off bare hands (dish soap required!)</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--coral);">Wipes Guide</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div><strong>Coterie 99% Water Wipes</strong> — primary everyday diaper wipe</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div><strong>Honest Organic Cotton Dry Wipes</strong> — use dry or dampened for extra sensitive moments</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div><strong>La Petite Creme Diapering Lotion</strong> — apply to dry wipe before wiping (French method — cleanses + protects in one step!)</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div><strong>Mustela Water Wipes</strong> — gentle option, also good for face and hands</div></div>
+    <div class="warn-box">Boogie Wipes are for NOSE only — not for diaper area</div>
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=newborn+diaper+change+technique+girl" target="_blank" class="video-link">
+    <div class="video-icon">▶</div>
+    <div class="video-link-text">
+      <div class="v-title">How to Change a Newborn Diaper</div>
+      <div class="v-sub">YouTube — Newborn diaper technique for girls</div>
+    </div>
+  </a>
+</div>
+```
+
+  </div>
+
+  <!-- 2. COTERIE DIAPERS -->
+
+  <div class="section-card" id="coterie">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-emoji" style="background:#EEF3FB;">🩲</div>
+        <div class="section-title-wrap">
+          <h2>Coterie Diapers</h2>
+          <p>How to apply, fit & when to size up</p>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+
+```
+  <div class="block">
+    <div class="block-title" style="color:var(--blue);">Size Chart (by Weight)</div>
+    <table class="fever-table">
+      <tr><th>Size</th><th>Weight</th><th>Notes</th></tr>
+      <tr><td><strong>Newborn (N)</strong></td><td>Up to ~10 lbs</td><td>Has umbilical cord notch ✂️</td></tr>
+      <tr><td><strong>Size 1</strong></td><td>8–14 lbs</td><td>Overlapping tabs feature</td></tr>
+      <tr><td><strong>Size 2</strong></td><td>12–18 lbs</td><td>~3–8 months typical</td></tr>
+      <tr><td><strong>Size 3</strong></td><td>16–28 lbs</td><td>Longest-used size</td></tr>
+      <tr><td><strong>Size 4</strong></td><td>22–37 lbs</td><td>—</td></tr>
+      <tr><td><strong>Size 5</strong></td><td>27–35 lbs</td><td>—</td></tr>
+      <tr><td><strong>Size 6</strong></td><td>35–41 lbs</td><td>—</td></tr>
+    </table>
+    <div class="tip-box">Sizes are based on weight, not age. When in doubt — size UP! A slightly big diaper is better than one that's too tight.</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--blue);">How to Put On a Coterie Diaper</div>
+    <div class="step"><div class="step-num" style="background:var(--blue);">1</div><div class="step-text"><strong>Open flat</strong> — lay diaper down, patterned side facing down</div></div>
+    <div class="step"><div class="step-num" style="background:var(--blue);">2</div><div class="step-text"><strong>Lift baby's bottom</strong> — slide diaper under with the tabs side toward baby's back</div></div>
+    <div class="step"><div class="step-num" style="background:var(--blue);">3</div><div class="step-text"><strong>Umbilical cord notch</strong> — on Newborn & Size 1, position the U-shaped cutout under the cord stump. No folding needed!</div></div>
+    <div class="step"><div class="step-num" style="background:var(--blue);">4</div><div class="step-text"><strong>Bring front up</strong> — pull front of diaper up over belly, waistband sits just <strong>below the belly button</strong></div></div>
+    <div class="step"><div class="step-num" style="background:var(--blue);">5</div><div class="step-text"><strong>Attach tabs</strong> — pull tabs from back around to front landing zone. On N & Size 1: tabs are designed to <strong>overlap</strong> — that's intentional for a snug fit on smaller babies!</div></div>
+    <div class="step"><div class="step-num" style="background:var(--blue);">6</div><div class="step-text"><strong>Check leg ruffles</strong> — run a finger around each leg opening and <strong>pull ruffles OUT</strong> so they're not tucked in. This is the #1 cause of leaks!</div></div>
+    <div class="step"><div class="step-num" style="background:var(--blue);">7</div><div class="step-text"><strong>Fit check</strong> — should fit snug but not tight. Slide two fingers under the waistband — they should move easily side to side with no red marks</div></div>
+    <div class="warn-box">Leg ruffles MUST be on the outside — tucked ruffles = guaranteed leaks every time</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--blue);">Perfect Fit Checklist</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>✅ Waistband sits just below belly button</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>✅ Two fingers fit under waistband easily</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>✅ Leg ruffles are fluffed OUT on both sides</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>✅ No red marks on waist or thighs after removal</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>✅ A little sag in the bottom — normal! It's for absorbency</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>✅ Baby can move legs freely without restriction</div></div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--blue);">🚨 Signs It's Time to Size UP</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div><strong>Red marks</strong> on waist, tummy, or thighs after removing diaper</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div><strong>Frequent leaks</strong> — especially out the legs or up the back</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div><strong>Tabs barely reach</strong> the landing zone or don't fasten without pulling hard</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div><strong>Diaper looks too small</strong> and doesn't fully cover the bottom</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div>Baby's weight is <strong>approaching the upper limit</strong> of the current size</div></div>
+    <div class="tip-box">Don't wait for discomfort — check diaper fit once or twice a week as baby grows. Sizing up a little early is always better than leaving baby in a too-small diaper!</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--blue);">Blowout Prevention Tips</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>Make sure diaper sits <strong>high enough</strong> on the back — waistband should be at the small of the back</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>Leg ruffles out is the most important step — <strong>check every single time</strong></div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>If getting blowouts, <strong>size up first</strong> before assuming it's the brand</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>Change frequency: newborns need ~7 changes/day — don't let diaper get too full</div></div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--blue);">Coterie Special Features</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div><strong>Umbilical cord notch</strong> — built into Newborn & Size 1, no folding needed</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);">  </div><div><strong>Overlapping tabs</strong> on N & Size 1 — designed to cross over for snug fit on small babies</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div><strong>Size Assist</strong> — if subscribed, Coterie sends a free trial pack of next size up automatically</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>99% water wipes are designed to pair with Coterie diapers</div></div>
+  </div>
+
+  <a href="https://www.coterie.com/sizing-101" target="_blank" class="resource-link">
+    <div class="resource-icon">📖</div>
+    <div class="video-link-text">
+      <div class="v-title">Coterie Sizing 101</div>
+      <div class="v-sub">coterie.com — Official size guide & fit tutorial</div>
+    </div>
+  </a>
+  <a href="https://www.youtube.com/results?search_query=how+to+put+on+diaper+newborn+correctly+leg+ruffles" target="_blank" class="video-link">
+    <div class="video-icon">▶</div>
+    <div class="video-link-text">
+      <div class="v-title">How to Put On a Diaper Correctly</div>
+      <div class="v-sub">YouTube — Leg ruffles, tabs & fit demo</div>
+    </div>
+  </a>
+
+</div>
+```
+
+  </div>
+
+  <!-- 3. SKINCARE -->
+
+  <div class="section-card" id="skin">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-emoji" style="background:#EEF7F1;">🧴</div>
+        <div class="section-title-wrap">
+          <h2>Skincare Routine</h2>
+          <p>Daily + eczema protocol</p>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+
+```
+  <div class="block">
+    <div class="block-title" style="color:var(--sage);">The Golden Rule — Thinnest to Thickest</div>
+    <div class="step"><div class="step-num" style="background:var(--sage);">1</div><div class="step-text"><strong>CeraVe Baby Lotion</strong> — whole body, adds moisture. Always first.</div></div>
+    <div class="step"><div class="step-num" style="background:var(--teal);">2</div><div class="step-text"><strong>Avene Cicalfate+</strong> — on irritated, raw, or eczema patches only</div></div>
+    <div class="step"><div class="step-num" style="background:var(--lavender);">3</div><div class="step-text"><strong>CeraVe Baby Eczema Relief Cream</strong> — on actively inflamed spots (colloidal oatmeal, no steroid)</div></div>
+    <div class="step"><div class="step-num" style="background:var(--peach);">4</div><div class="step-text"><strong>CeraVe Healing Ointment</strong> — always LAST 🔒 seals everything in</div></div>
+    <div class="tip-box">Lotion adds moisture, Ointment locks it in. If you flip the order, the ointment blocks the lotion from absorbing!</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--sage);">Daily (No Flare-Up)</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--sage);"></div><div>Step 1: CeraVe Lotion → whole body</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--sage);"></div><div>Step 2: CeraVe Healing Ointment → seal it in, especially dry spots and face</div></div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--sage);">Flare-Up Day</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--sage);"></div><div>Lotion → Cicalfate+ on problem areas → Eczema Relief on inflamed spots → Ointment to seal</div></div>
+    <div class="warn-box">Eczema Relief Cream = spot treatment only, max 7 days straight. Avoid face unless pediatrician approves.</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--sage);">Eczema Bath Booster</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--sage);"></div><div><strong>Aveeno Baby Eczema Therapy bath packet</strong> — add to lukewarm bath water during flare-ups</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--sage);"></div><div>Colloidal oatmeal soothes dry, itchy, irritated skin</div></div>
+    <div class="products-row">
+      <span class="product-tag">📦 CeraVe Baby Lotion</span>
+      <span class="product-tag">📦 Avene Cicalfate+</span>
+      <span class="product-tag">📦 CeraVe Eczema Relief</span>
+      <span class="product-tag">📦 CeraVe Healing Ointment</span>
+      <span class="product-tag">📦 Aveeno Eczema Bath</span>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- 4. BATH TIME -->
+
+  <div class="section-card" id="bath">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-emoji" style="background:#EEF3FB;">🛁</div>
+        <div class="section-title-wrap">
+          <h2>Bath Time</h2>
+          <p>Routine + cradle cap treatment</p>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+
+```
+  <div class="block">
+    <div class="block-title" style="color:var(--blue);">Bath Basics</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div><strong>2–3 times per week</strong> is plenty — overbathing dries out newborn skin</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div><strong>Sponge baths only</strong> until umbilical cord stump falls off (1–3 weeks)</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>Lukewarm water — test with your elbow, not your hand</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>Use <strong>Babo Botanicals Sensitive Shampoo & Wash</strong> + Mushie silicone scrubbers</div></div>
+    <div class="tip-box">Pat dry gently, never rub — especially on eczema-prone skin. Apply lotion immediately while skin is still slightly damp.</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--blue);">Cradle Cap Treatment (Very Common!)</div>
+    <p style="font-size:12.5px;color:var(--mid);margin-bottom:8px;line-height:1.5;">Crusty, flaky, yellowish patches on scalp — looks scarier than it is! Always resolves with proper treatment.</p>
+    <div class="step"><div class="step-num" style="background:var(--blue);">1</div><div class="step-text"><strong>Soften:</strong> Mustela Cradle Cap Cream — massage into dry scalp, leave 15 min</div></div>
+    <div class="step"><div class="step-num" style="background:var(--blue);">2</div><div class="step-text"><strong>Brush:</strong> Frida Baby soft brush — gently loosen flakes (never pick!)</div></div>
+    <div class="step"><div class="step-num" style="background:var(--blue);">3</div><div class="step-text"><strong>Wash:</strong> Dr. Eddie's Happy Cappy (pyrithione zinc) medicated shampoo</div></div>
+    <div class="step"><div class="step-num" style="background:var(--blue);">4</div><div class="step-text"><strong>Rinse</strong> thoroughly, pat dry. Repeat 2–3x/week until cleared.</div></div>
+    <div class="products-row">
+      <span class="product-tag">📦 Mustela Cradle Cap Cream</span>
+      <span class="product-tag">📦 Frida Baby Brush/Comb</span>
+      <span class="product-tag">📦 Dr. Eddie's Happy Cappy</span>
+    </div>
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=newborn+sponge+bath+tutorial" target="_blank" class="video-link">
+    <div class="video-icon">▶</div>
+    <div class="video-link-text">
+      <div class="v-title">Newborn Sponge Bath Tutorial</div>
+      <div class="v-sub">YouTube — Step by step first bath</div>
+    </div>
+  </a>
+  <a href="https://www.youtube.com/results?search_query=cradle+cap+treatment+baby" target="_blank" class="video-link">
+    <div class="video-icon">▶</div>
+    <div class="video-link-text">
+      <div class="v-title">Cradle Cap Treatment Demo</div>
+      <div class="v-sub">YouTube — How to loosen and remove flakes</div>
+    </div>
+  </a>
+</div>
+```
+
+  </div>
+
+  <!-- 5. TUMMY TIME -->
+
+  <div class="section-card" id="tummy">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-emoji" style="background:#EEF7F1;">🤸</div>
+        <div class="section-title-wrap">
+          <h2>Tummy Time</h2>
+          <p>5 positions — start from day 1</p>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+
+```
+  <div class="block">
+    <div class="block-title" style="color:var(--sage);">What Counts as Tummy Time?</div>
+    <p style="font-size:13px;line-height:1.6;color:var(--dark);">Tummy time is <strong>any time baby is on their belly while awake and supervised</strong> — it doesn't have to be on the floor! Holding baby belly-down on your forearm, chest-to-chest on your chest, or across your lap all count. Start from day 1!</p>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--sage);">5 Tummy Time Positions</div>
+    <div class="tt-grid">
+      <div class="tt-card">
+        <span class="tt-emoji">🫀</span>
+        <div class="tt-name">Chest-to-Chest</div>
+        <div class="tt-desc">Baby belly-down on your chest while you recline. Easiest start — they can see your face!</div>
+      </div>
+      <div class="tt-card">
+        <span class="tt-emoji">💪</span>
+        <div class="tt-name">Forearm Hold</div>
+        <div class="tt-desc">Baby belly-down along your forearm, head in palm. Walk around — this is active tummy time!</div>
+      </div>
+      <div class="tt-card">
+        <span class="tt-emoji">🦵</span>
+        <div class="tt-name">Across Your Lap</div>
+        <div class="tt-desc">Baby tummy-down across your knees. Gently rub back. Good after diaper changes.</div>
+      </div>
+      <div class="tt-card">
+        <span class="tt-emoji">🧸</span>
+        <div class="tt-name">Floor Time</div>
+        <div class="tt-desc">On a firm flat surface with arms tucked under shoulders. Add a rolled towel for support.</div>
+      </div>
+    </div>
+    <div class="bullet" style="margin-top:8px;"><div class="bullet-dot" style="background:var(--sage);"></div><div><strong>Shoulder carry:</strong> Baby over your shoulder facing behind you — also counts!</div></div>
+    <div class="tip-box">Alternate which arm/shoulder you use so baby practices turning their neck both ways</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--sage);">How Much Tummy Time?</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--sage);"></div><div><strong>Newborn:</strong> 1–2 minutes per session, 2–3x per day</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--sage);"></div><div><strong>By 7 weeks:</strong> Work up to 15–30 min total per day</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--sage);"></div><div><strong>By 3–4 months:</strong> 60–90 min total per day in short sessions</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--sage);"></div><div>Best time: after a diaper change when baby is awake and content</div></div>
+    <div class="tip-box">Baby doesn't have to lift their head for tummy time to count — even lying with cheek resting down builds strength!</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--sage);">Why It Matters</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--sage);"></div><div>Builds neck, shoulder, and core strength</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--sage);"></div><div>Prevents flat head syndrome (plagiocephaly)</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--sage);"></div><div>Foundation for rolling, crawling, sitting</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--sage);"></div><div>Helps with gas and digestion</div></div>
+    <div class="warn-box">NEVER for sleep — tummy time is awake and supervised only. Always back to sleep.</div>
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=newborn+tummy+time+positions+tutorial" target="_blank" class="video-link">
+    <div class="video-icon">▶</div>
+    <div class="video-link-text">
+      <div class="v-title">Tummy Time Positions for Newborns</div>
+      <div class="v-sub">YouTube — All 5 positions demonstrated</div>
+    </div>
+  </a>
+  <a href="https://www.healthychildren.org/English/ages-stages/baby/sleep/Pages/The-Importance-of-Tummy-Time.aspx" target="_blank" class="resource-link">
+    <div class="resource-icon">📖</div>
+    <div class="video-link-text">
+      <div class="v-title">AAP Tummy Time Guide</div>
+      <div class="v-sub">HealthyChildren.org — Official AAP resource</div>
+    </div>
+  </a>
+</div>
+```
+
+  </div>
+
+  <!-- 6. FRANK BREECH -->
+
+  <div class="section-card" id="breech" style="border: 2px solid #F0C060;">
+    <div class="section-header" onclick="toggle(this)" style="background:linear-gradient(135deg,#FFF8E6,#FFFBF0);">
+      <div class="section-header-left">
+        <div class="section-emoji" style="background:#FFF0C0;">⭐</div>
+        <div class="section-title-wrap">
+          <h2>Frank Breech Baby</h2>
+          <p>Special care for Baby Schulman</p>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+
+```
+  <div class="block">
+    <div class="block-title" style="color:#B07800;">What Is Frank Breech?</div>
+    <p style="font-size:13px;line-height:1.6;color:var(--dark);margin-bottom:8px;">In frank breech, baby's hips were flexed and legs extended straight UP alongside the body — feet near the ears, like a pike position. Baby Schulman spent months folded this way, so her natural resting position after birth reflects this.</p>
+    <div class="tip-box">You may notice she prefers to keep her legs extended upward or out — this is completely normal and will resolve over the first weeks as muscles relax!</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:#B07800;">Hip Dysplasia — What to Know</div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Frank breech increases risk of <strong>Developmental Dysplasia of the Hip (DDH)</strong> — hip socket may be shallow</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>AAP recommends <strong>hip ultrasound at 6 weeks</strong> for all breech baby girls — make sure this is scheduled!</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Pediatrician will check hips at every visit using Barlow/Ortolani exam</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>If detected early, treatment (Pavlik harness) is very effective with ~90% success rate</div></div>
+    <div class="warn-box">Watch for: asymmetrical leg creases, clicking sound in hips, one leg that seems shorter. Tell your pediatrician immediately.</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:#B07800;">Hip-Safe Swaddling</div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div><strong>NEVER force legs straight</strong> when swaddling — this can worsen hip dysplasia</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Use <strong>"hip-safe" swaddle</strong> technique: wrap chest/arms snugly but leave hips FREE to flex and move</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Hips should be able to spread apart naturally — like a frog position</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Sleep sacks are great — snug on top, roomy pouch for legs/hips to move freely</div></div>
+    <div class="tip-box">The Pavlik harness (if needed) holds hips in the healthy frog/flexed position — exactly where they want to be naturally anyway!</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:#B07800;">Carrying & Positioning</div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>When carrying, allow hips to spread in an <strong>"M" position</strong> — thighs supported, knees at or above hip level</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Baby carriers and wraps should support from knee to knee in the "M" position</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Avoid carriers where legs dangle straight down — not hip-safe</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>When diapering, lift legs gently — no need to force them down flat</div></div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:#B07800;">Tummy Time for Breech Babies</div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Tummy time is <strong>still important</strong> and encouraged for breech babies</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Chest-to-chest and forearm hold positions are especially comfortable</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Don't worry about leg position during tummy time — let them rest naturally</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>If baby is fitted with a Pavlik harness, ask your doctor which tummy time positions are approved</div></div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:#B07800;">Watch for Torticollis</div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Breech babies have slightly higher risk of <strong>torticollis</strong> (tight neck muscle = head tilts to one side)</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Signs: head always tilts same direction, difficulty feeding on one side, only turns neck one way</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Treatment: physical therapy stretches, usually resolves within 3 months if caught early</div></div>
+    <div class="tip-box">Switch which arm you carry her on and which shoulder you do tummy time on — encourage her to look both ways equally</div>
+  </div>
+
+  <a href="https://hipdysplasia.org/developmental-dysplasia-of-the-hip/hip-healthy-swaddling/" target="_blank" class="resource-link">
+    <div class="resource-icon">🦴</div>
+    <div class="video-link-text">
+      <div class="v-title">Hip-Safe Swaddling Guide</div>
+      <div class="v-sub">International Hip Dysplasia Institute</div>
+    </div>
+  </a>
+  <a href="https://www.youtube.com/results?search_query=hip+safe+swaddle+technique+baby" target="_blank" class="video-link">
+    <div class="video-icon">▶</div>
+    <div class="video-link-text">
+      <div class="v-title">Hip-Safe Swaddle Demonstration</div>
+      <div class="v-sub">YouTube — Diamond & square swaddle techniques</div>
+    </div>
+  </a>
+  <a href="https://hipdysplasia.org" target="_blank" class="resource-link">
+    <div class="resource-icon">📖</div>
+    <div class="video-link-text">
+      <div class="v-title">International Hip Dysplasia Institute</div>
+      <div class="v-sub">hipdysplasia.org — Complete parent resource</div>
+    </div>
+  </a>
+</div>
+```
+
+  </div>
+
+  <!-- 7. FEEDING -->
+
+  <div class="section-card" id="feeding">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-emoji" style="background:#F3EEF9;">🍼</div>
+        <div class="section-title-wrap">
+          <h2>Feeding</h2>
+          <p>Hunger cues, schedule & supplements</p>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+
+```
+  <div class="block">
+    <div class="block-title" style="color:var(--lavender);">Hunger Cues — Feed BEFORE Crying!</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--lavender);"></div><div><strong>Rooting</strong> — turning head, opening mouth, searching</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--lavender);"></div><div>Sucking on hands or fingers</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--lavender);"></div><div>Smacking lips, sticking out tongue</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--lavender);"></div><div>Squirming, bringing hands to face</div></div>
+    <div class="warn-box">Crying = LATE hunger cue. Try to catch earlier signs — a calm baby latches much better!</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--lavender);">Frequency</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--lavender);"></div><div><strong>Breastfed:</strong> every 2–3 hours (8–12 times/day)</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--lavender);"></div><div><strong>Formula:</strong> every 3–4 hours (6–8 times/day)</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--lavender);"></div><div>Feed on demand — watch cues, not just the clock</div></div>
+    <div class="tip-box">Wake baby to feed if sleeping longer than 3–4 hours in the first few weeks until weight is established</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--lavender);">Daily Supplements</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--lavender);"></div><div><strong>Vitamin D Drops — 400 IU daily from birth</strong>. Breastfed babies get almost zero Vitamin D from breast milk. Apply to nipple, pacifier, or directly in mouth.</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--lavender);"></div><div><strong>BioGaia Probiotic Drops — 5 drops daily after a feed</strong>. Supports gut health, reduces colic/gas long-term. Also use after any antibiotic course.</div></div>
+    <div class="products-row">
+      <span class="product-tag">📦 Vitamin D Drops</span>
+      <span class="product-tag">📦 BioGaia Probiotic Drops</span>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--lavender);">Is Baby Getting Enough? Check Diapers</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--lavender);"></div><div>Days 1–2: 1–2 wet diapers/day</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--lavender);"></div><div>Day 3+: at least <strong>6 wet diapers/day</strong> = baby is getting enough</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--lavender);"></div><div>Always burp after feeding — over shoulder or sitting up</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--lavender);"></div><div>Keep upright 20–30 min after feeding to reduce spit-up</div></div>
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=newborn+feeding+latch+breastfeeding+tutorial" target="_blank" class="video-link">
+    <div class="video-icon">▶</div>
+    <div class="video-link-text">
+      <div class="v-title">Newborn Feeding & Latch Tutorial</div>
+      <div class="v-sub">YouTube — Breastfeeding positions</div>
+    </div>
+  </a>
+</div>
+```
+
+  </div>
+
+  <!-- 7. GAS & TUMMY -->
+
+  <div class="section-card" id="gas">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-emoji" style="background:#FEF4EE;">💨</div>
+        <div class="section-title-wrap">
+          <h2>Gas & Tummy Troubles</h2>
+          <p>Relief products + Windi how-to</p>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+
+```
+  <div class="block">
+    <div class="block-title" style="color:var(--peach);">Gas Relief — Step by Step</div>
+    <div class="step"><div class="step-num" style="background:var(--teal);">1</div><div class="step-text"><strong>Prevention:</strong> BioGaia Probiotic Drops daily after feed — builds gut flora over time</div></div>
+    <div class="step"><div class="step-num" style="background:var(--peach);">2</div><div class="step-text"><strong>Remedies Gas Relief Drops</strong> — give after each feed when gassy. Birth+</div></div>
+    <div class="step"><div class="step-num" style="background:var(--peach);">3</div><div class="step-text"><strong>Bicycle legs</strong> — lay on back, gently cycle legs toward belly</div></div>
+    <div class="step"><div class="step-num" style="background:var(--peach);">4</div><div class="step-text"><strong>Tummy time</strong> — gentle belly pressure helps move gas</div></div>
+    <div class="step"><div class="step-num" style="background:var(--coral);">5</div><div class="step-text"><strong>Windi the Gaspasser</strong> — last resort when nothing else works</div></div>
+    <div class="products-row">
+      <span class="product-tag">📦 BioGaia Probiotic Drops</span>
+      <span class="product-tag">📦 Remedies Gas Relief Drops</span>
+      <span class="product-tag">📦 Frida Baby Windi</span>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--peach);">Windi the Gaspasser — How to Use</div>
+    <div class="step"><div class="step-num" style="background:var(--peach);">1</div><div class="step-text">Lay baby on back, lift legs toward chest</div></div>
+    <div class="step"><div class="step-num" style="background:var(--peach);">2</div><div class="step-text">Apply a tiny bit of petroleum jelly to the tip</div></div>
+    <div class="step"><div class="step-num" style="background:var(--peach);">3</div><div class="step-text">Gently insert short end into rectum, only up to the guard ring</div></div>
+    <div class="step"><div class="step-num" style="background:var(--peach);">4</div><div class="step-text">Hold in place — gas releases through the tube</div></div>
+    <div class="warn-box">Never force it. Stop if baby shows distress. Use sparingly — for trapped gas only when drops don't work.</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--peach);">Stuffy Nose</div>
+    <div class="step"><div class="step-num" style="background:var(--teal);">1</div><div class="step-text"><strong>Remedies Saline Spray</strong> — 2–3 drops each nostril before feeds or sleep</div></div>
+    <div class="step"><div class="step-num" style="background:var(--teal);">2</div><div class="step-text"><strong>NoseFrida aspirator</strong> — suction after saline drops loosen mucus</div></div>
+    <div class="step"><div class="step-num" style="background:var(--teal);">3</div><div class="step-text"><strong>Boogie Wipes</strong> — gently wipe crusty discharge around nose</div></div>
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=frida+baby+nosefrida+how+to+use" target="_blank" class="video-link">
+    <div class="video-icon">▶</div>
+    <div class="video-link-text">
+      <div class="v-title">How to Use the NoseFrida</div>
+      <div class="v-sub">YouTube — Nasal aspirator technique</div>
+    </div>
+  </a>
+</div>
+```
+
+  </div>
+
+  <!-- 9. WHEN SICK -->
+
+  <div class="section-card" id="sick">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-emoji" style="background:#EEF7F5;">🏥</div>
+        <div class="section-title-wrap">
+          <h2>When Baby Is Sick</h2>
+          <p>Fever guide + medicine kit</p>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+
+```
+  <div class="block">
+    <div class="block-title" style="color:var(--teal);">Thermometers — Which to Use</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--teal);"></div><div><strong>Frida Baby Rectal</strong> — MOST accurate. Use for any concern under 3 months.</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--teal);"></div><div><strong>Exergen Temporal Scanner</strong> — quick forehead monitoring</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--teal);"></div><div><strong>No-touch forehead</strong> — convenient screening, less accurate</div></div>
+    <div class="tip-box">Under 3 months: ALWAYS confirm with rectal thermometer for any suspected fever</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--teal);">Fever Guidelines</div>
+    <table class="fever-table">
+      <tr><th>Age</th><th>Action</th></tr>
+      <tr><td><strong>Under 3 months</strong><br>ANY temp 100.4°F+</td><td style="color:#C0392B;font-weight:600;">🚨 ER or Call Doctor IMMEDIATELY</td></tr>
+      <tr><td><strong>3–6 months</strong><br>Over 101°F</td><td>📞 Call doctor</td></tr>
+      <tr><td><strong>6+ months</strong><br>Over 103°F</td><td>📞 Call doctor</td></tr>
+      <tr><td>Any age, fever 2+ days</td><td>📞 Call doctor</td></tr>
+    </table>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--teal);">Your Medicine Kit</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--teal);"></div><div><strong>Genexa Infants' Pain & Fever</strong> (acetaminophen) — fever/pain, 2 months+</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--teal);"></div><div><strong>Infant Motrin</strong> (ibuprofen) — fever/pain, <strong>6 months+ ONLY</strong></div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--teal);"></div><div><strong>Remedies Saline Spray</strong> — stuffy/dry nose, birth+</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--teal);"></div><div><strong>Remedies Gas Relief Drops</strong> — gas, birth+</div></div>
+    <div class="warn-box">NEVER give ibuprofen under 6 months. Always dose by WEIGHT, not age. Use medicine syringes for accuracy.</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--teal);">Always Call Doctor If</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div>Difficulty breathing or breathing very fast</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div>Blue/purple color around lips or fingernails</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div>Won't wake up or very hard to rouse</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div>Not eating for a full feeding</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div>Fewer than 6 wet diapers in 24 hours</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--coral);"></div><div>Unusual rash, especially with fever</div></div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- 10. SAFE SLEEP -->
+
+  <div class="section-card" id="sleep">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-emoji" style="background:#EEF3FB;">😴</div>
+        <div class="section-title-wrap">
+          <h2>Safe Sleep</h2>
+          <p>ABCs + newborn sleep reality</p>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+
+```
+  <div class="block">
+    <div class="block-title" style="color:var(--blue);">The ABCs of Safe Sleep</div>
+    <div class="step"><div class="step-num" style="background:var(--blue);">A</div><div class="step-text"><strong>Alone</strong> — baby sleeps by themselves, no bed sharing</div></div>
+    <div class="step"><div class="step-num" style="background:var(--blue);">B</div><div class="step-text"><strong>Back</strong> — always on their back, every time, no exceptions</div></div>
+    <div class="step"><div class="step-num" style="background:var(--blue);">C</div><div class="step-text"><strong>Crib</strong> — firm, flat surface with fitted sheet only</div></div>
+    <div class="warn-box">NO pillows, blankets, bumpers, positioners, or stuffed animals in sleep space</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--blue);">Hip-Safe Sleep for Breech Baby ⭐</div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Use <strong>sleep sack</strong> instead of swaddle blanket — snug top, roomy bottom for hips to move</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>If swaddling, use <strong>hip-safe technique</strong> — wrap arms/chest, leave legs loose</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:#F0C060;"></div><div>Never force legs straight or together when wrapping</div></div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--blue);">Sleep Environment</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>Room temp: <strong>68–72°F</strong></div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>Dark room helps signal sleep time</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>White noise can extend sleep stretches</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>Room-sharing (same room, NOT same bed) for first 6 months — reduces SIDS risk</div></div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--blue);">Newborn Sleep Reality</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>Newborns sleep 14–17 hours/day in 2–4 hour stretches</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>No day/night awareness for first few weeks — totally normal!</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--blue);"></div><div>Aim to put down <strong>drowsy but awake</strong> to build self-soothing</div></div>
+    <div class="tip-box">Watch for sleepy cues: eye rubbing, yawning, staring into space. Don't wait until overtired!</div>
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=hip+safe+swaddle+newborn+tutorial" target="_blank" class="video-link">
+    <div class="video-icon">▶</div>
+    <div class="video-link-text">
+      <div class="v-title">Hip-Safe Swaddling for Breech Babies</div>
+      <div class="v-sub">YouTube — Diamond swaddle technique</div>
+    </div>
+  </a>
+  <a href="https://www.safetosleep.nichd.nih.gov/" target="_blank" class="resource-link">
+    <div class="resource-icon">📖</div>
+    <div class="video-link-text">
+      <div class="v-title">Safe to Sleep Campaign</div>
+      <div class="v-sub">NICHD — Official safe sleep guidelines</div>
+    </div>
+  </a>
+</div>
+```
+
+  </div>
+
+  <!-- 11. SOOTHING -->
+
+  <div class="section-card" id="soothe">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-emoji" style="background:#FEF0F5;">💗</div>
+        <div class="section-title-wrap">
+          <h2>Soothing a Crying Baby</h2>
+          <p>The 5 S's + techniques</p>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+
+```
+  <div class="block">
+    <div class="block-title" style="color:var(--pink);">The 5 S's (Dr. Harvey Karp)</div>
+    <div class="step"><div class="step-num" style="background:var(--pink);">1</div><div class="step-text"><strong>Swaddle</strong> — wrap snugly (hip-safe! arms in, legs free to flex)</div></div>
+    <div class="step"><div class="step-num" style="background:var(--pink);">2</div><div class="step-text"><strong>Side/Stomach</strong> — hold on side or stomach (only while awake + held)</div></div>
+    <div class="step"><div class="step-num" style="background:var(--pink);">3</div><div class="step-text"><strong>Shush</strong> — loud shushing near ear, louder than the cry</div></div>
+    <div class="step"><div class="step-num" style="background:var(--pink);">4</div><div class="step-text"><strong>Swing</strong> — rhythmic motion, gentle head jiggle</div></div>
+    <div class="step"><div class="step-num" style="background:var(--pink);">5</div><div class="step-text"><strong>Suck</strong> — pacifier or clean finger</div></div>
+    <div class="tip-box">Combine ALL 5 at once for maximum effect on a very upset baby!</div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--pink);">Other Techniques</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--pink);"></div><div><strong>Skin-to-skin / kangaroo care</strong> — most calming for newborns</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--pink);"></div><div>White noise — fan, vacuum recording, womb sounds</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--pink);"></div><div>Car ride or stroller walk — rhythmic motion</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--pink);"></div><div>Warm bath — very calming for many babies</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--pink);"></div><div>Your voice singing — the most familiar sound in the world to her</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--pink);"></div><div><strong>Forearm tummy hold</strong> — belly on your forearm, gentle walking = soothing + tummy time!</div></div>
+  </div>
+
+  <div class="block">
+    <div class="block-title" style="color:var(--pink);">When You've Tried Everything</div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--pink);"></div><div>Safely put baby in crib and take a 5-minute breather — it's okay and important!</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--pink);"></div><div>Tag in your partner — fresh arms and energy truly help</div></div>
+    <div class="bullet"><div class="bullet-dot" style="background:var(--pink);"></div><div>Inconsolable 3+ hours — call pediatrician (may be colic)</div></div>
+    <div class="warn-box">NEVER shake a baby — even in moments of deep frustration. Always safe to put down and step away.</div>
+  </div>
+
+  <a href="https://www.youtube.com/results?search_query=dr+harvey+karp+5+s+soothing+baby" target="_blank" class="video-link">
+    <div class="video-icon">▶</div>
+    <div class="video-link-text">
+      <div class="v-title">Dr. Harvey Karp's 5 S's</div>
+      <div class="v-sub">YouTube — The Happiest Baby technique</div>
+    </div>
+  </a>
+</div>
+```
+
+  </div>
+
+  <!-- 12. NAILS -->
+
+  <div class="section-card" id="nails">
+    <div class="section-header" onclick="toggle(this)">
+      <div class="section-header-left">
+        <div class="section-emoji" style="background:#F2F6EE;">✂️</div>
+        <div class="section-title-wrap">
+          <h2>Nail Care</h2>
+          <p>Filing tips + timing tricks</p>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="block">
+        <div class="block-title" style="color:var(--green);">Newborn Nails Grow Fast!</div>
+        <p style="font-size:13px;line-height:1.6;color:var(--dark);">Baby's nails are soft but very sharp and will scratch her face constantly. File every 3–5 days or as needed.</p>
+      </div>
+      <div class="block">
+        <div class="block-title" style="color:var(--green);">How to File</div>
+        <div class="bullet"><div class="bullet-dot" style="background:var(--green);"></div><div><strong>Momcozy Baby Nail File Kit</strong> — safest for newborns, no risk of nicking skin</div></div>
+        <div class="bullet"><div class="bullet-dot" style="background:var(--green);"></div><div>Best time: when baby is in a deep sleep or drowsy after feeding</div></div>
+        <div class="bullet"><div class="bullet-dot" style="background:var(--green);"></div><div>Use good lighting — newborn nails are tiny!</div></div>
+        <div class="bullet"><div class="bullet-dot" style="background:var(--green);"></div><div>Hold finger firmly, press fingertip pad <strong>down</strong> away from nail</div></div>
+        <div class="bullet"><div class="bullet-dot" style="background:var(--green);"></div><div>File in one direction only, not sawing back and forth</div></div>
+        <div class="tip-box">Many parents find it easiest to file nails while baby nurses or takes a bottle — they're calm and distracted!</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /sections -->
+
+<div class="footer">
+  Made with ❤️ for Baby Schulman<br>
+  Always consult your pediatrician for medical advice specific to your baby.<br>
+  This guide is for general reference only. You've got this! 🎀
+</div>
+
+<script>
+function toggle(header) {
+  const card = header.parentElement;
+  card.classList.toggle('open');
+}
+
+function goTo(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Auto-open if not already open
+    if (!el.classList.contains('open')) {
+      el.classList.add('open');
+    }
+  }
+}
+
+function doSearch(query) {
+  const q = query.toLowerCase().trim();
+  const cards = document.querySelectorAll('.section-card');
+  const banner = document.getElementById('breech-banner');
+  const nav = document.getElementById('quicknav');
+
+  if (!q) {
+    cards.forEach(c => c.classList.remove('hidden'));
+    banner.classList.remove('hidden');
+    nav.classList.remove('hidden');
+    return;
+  }
+
+  banner.classList.add('hidden');
+  nav.classList.add('hidden');
+
+  cards.forEach(card => {
+    const text = card.textContent.toLowerCase();
+    if (text.includes(q)) {
+      card.classList.remove('hidden');
+      card.classList.add('open');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+// Open breech section by default since it's most important
+document.addEventListener('DOMContentLoaded', () => {
+  // Keep all closed initially for clean UX
+});
+</script>
+
+</body>
+</html>
